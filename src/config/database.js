@@ -1,15 +1,21 @@
 import { Sequelize } from "sequelize"
 import { User, TimeSlot, Appointment } from "../models/index.js"
+import dotenv from 'dotenv'
 
-const sequelize = new sequelize(
-    process.evn.DB_NAME,
+dotenv.config()
+
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
     process.env.DB_USER,
     process.env.DB_PASSWORD,
     {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         dialect: 'postgres',
-        logging:console.log //basic logging terminal
+        dialectOptions: {
+          ssl: false
+        },
+        logging: console.log // Enable temporarily for debugging
     }
 )
 

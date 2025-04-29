@@ -1,6 +1,6 @@
-import User from "./User"
-import TimeSlot from "./TimeSlot"
-import Appointment from "./Appointment"
+import User from "./User.js"
+import TimeSlot from "./TimeSlot.js"
+import Appointment from "./Appointment.js"
 
 //User Relationship
 User.hasMany(TimeSlot, {

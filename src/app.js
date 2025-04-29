@@ -1,12 +1,15 @@
 import express from 'express'
 import cors from 'cors'
+import authRoutes from './routes/authRaoutes.js'
 
 const app = express()
 
-//B middleware
+//Bsc middleware
 app.use(cors())
 app.use(express.json())
 
+//Auth rout
+app.use('/api/auth', authRoutes)
 //loggin mdw
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
