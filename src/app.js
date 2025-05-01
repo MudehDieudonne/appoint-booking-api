@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import authRoutes from './routes/authRaoutes.js'
 import timeSlotRoutes from './routes/timeSlotRoutes.js'
+import appointmentRoutes from './routes/appointmentRoutes.js'
 
 const app = express()
 
@@ -11,6 +12,9 @@ app.use(express.json())
 
 //Auth rout
 app.use('/api/auth', authRoutes)
+
+//appnt Routes
+app.use('/api', appointmentRoutes)
 
 // Register time slot routes
 app.use('/api', timeSlotRoutes)
