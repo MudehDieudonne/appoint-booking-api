@@ -4,7 +4,7 @@ import { Op } from "sequelize"
 export const createTimeSlot = async (req, res) => {
     try{
         const { startTime, endTime } = req.body
-        const providerId = req.user.providerId
+        const providerId = req.user.id
         //Validate provider role
         if(req.user.role !== 'provider') {
             return res.status(403).json({ error: 'Only providers can create time slots'})
@@ -19,12 +19,13 @@ export const createTimeSlot = async (req, res) => {
             return res.status(400).json({ error: 'End time must be after start time'})
         }
 
-        //cHECK FOR oVELRLAPPING SLOTS
+        //CHECK FOR OVERLAPPING SLOTS
         const existingSlot = await TimeSlot.findOne({
             where: {
-                providerId, [Op.or]: [
-                    {startTime: { [Op.lt]: endTime}},
-                    {endTime: { [Op.gt]: startTime}}
+                providerId,
+                [Op.and]: [
+                    { startTime: { [Op.lt]: endTime } },
+                    { endTime: { [Op.gt]: startTime } }
                 ]
             }
         })

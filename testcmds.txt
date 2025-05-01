@@ -1,0 +1,15 @@
+# 1. Register (if needed)
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Dr. Mbachan","email":"mbachan@gmail.com","password":"mbachan237","role":"provider"}'
+
+# 2. Login and save token
+TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"mbachan@gmail.com","password":"mbachan237"}' | jq -r '.token')
+
+# 3. Use token
+curl -X POST http://localhost:3000/api/provider/time-slots \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"startTime":"2024-05-20T09:00:00Z","endTime":"2024-05-20T10:00:00Z"}'

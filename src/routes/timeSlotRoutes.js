@@ -5,7 +5,7 @@ import { createTimeSlot, getProviderTimeSlots, getAvailableTimeSlots } from "../
 const router = express.Router()
 
 //Provider ROUTES
-router.post('.provider/time-slots', authenticate, authorize(['provider']), createTimeSlot)
+router.post('/provider/time-slots', authenticate, authorize(['provider']), createTimeSlot)
 router.get('/provider/time-slots', authenticate, authorize(['provider']), getProviderTimeSlots)
 
 //CLient route
