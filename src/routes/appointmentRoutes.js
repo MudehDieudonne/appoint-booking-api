@@ -10,6 +10,60 @@ import {
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * tags:
+ *   name: Appointments
+ *   description: Appointment management
+ */
+
+/**
+ * @swagger
+ * /api/appointments:
+ *   post:
+ *     summary: Book an appointment
+ *     tags: [Appointments]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               timeSlotId:
+ *                 type: string
+ *             required:
+ *               - timeSlotId
+ *     responses:
+ *       201:
+ *         description: Appointment booked
+ *       400:
+ *         description: Time slot not available
+ */
+
+/**
+ * @swagger
+ * /api/appointments/{appointmentId}:
+ *   delete:
+ *     summary: Cancel an appointment
+ *     tags: [Appointments]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: appointmentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Appointment canceled
+ *       404:
+ *         description: Appointment not found
+ */
+
 //Client routes
 router.post('/appointments',
   authenticate,

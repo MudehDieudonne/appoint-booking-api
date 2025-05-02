@@ -3,6 +3,8 @@ import cors from 'cors'
 import authRoutes from './routes/authRaoutes.js'
 import timeSlotRoutes from './routes/timeSlotRoutes.js'
 import appointmentRoutes from './routes/appointmentRoutes.js'
+import swaggerUi from 'swagger-ui-express'
+import swaggerSpec from './config/swagger.js'
 
 const app = express()
 
@@ -24,6 +26,15 @@ app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
     next()
 })
+
+//swg
+app.use('/api-docs', 
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true,
+    customCss: '.swagger-ui .topbar { display: none }'
+  })
+)
 
 //check enpoint
 app.get('/health', (req, res) => {

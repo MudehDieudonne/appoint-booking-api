@@ -6,12 +6,14 @@ export const bookAppointment = async (req, res) => {
     const transaction = await sequelize.transaction()
     try {
         const { timeSlotId } = req.body
-        const clientId = req.user.clientId
+        const clientId = req.user.id
+
+        console.log('Booking appointment for clientId:', clientId, 'with timeSlotId:', timeSlotId)
 
         //Validate client role
         if (req.user.role !== 'client') {
             await transaction.rollback()
-            return res.statuse(403).json({ error: 'Only clients can book appointments'})
+            return res.status(403).json({ error: 'Only clients can book appointments'})
         }
 
         //find available time slot
@@ -26,7 +28,7 @@ export const bookAppointment = async (req, res) => {
 
         if (!timeSlot) {
             await transaction.rollback()
-            return res.status(400).json({ error: 'TIme slot not available'})
+            return res.status(400).json({ error: 'Time slot not available'})
         }
 
         //Create appointment
@@ -36,6 +38,8 @@ export const bookAppointment = async (req, res) => {
             status: 'booked'
         },{transaction})
 
+        console.log('Created appointment:', appointment.toJSON())
+
         //Update time slot status
         await timeSlot.update({ status: 'booked'}, {transaction})
         await transaction.commit();
@@ -43,14 +47,14 @@ export const bookAppointment = async (req, res) => {
         res.status(201).json(appointment)
     } catch (error) {
         await transaction.rollback()
-        res.status(500).json({ error: error.massage})
+        res.status(500).json({ error: error.message})
     }
 }
 
 export const getClientAppointments = async (req, res) => {
     try {
         const appointments = await Appointment.findAll({
-            where: { client: req.user.id },
+            where: { clientId: req.user.id },
             include: [
                 {
                     model: TimeSlot,
@@ -88,7 +92,7 @@ export const getProviderAppointments = async (req, res) => {
         })
         res.json(appointments)
     } catch (error) {
-        res.status(500).json({error: error.massage})
+        res.status(500).json({error: error.message})
     }
 }
 
@@ -96,12 +100,12 @@ export const cancelAppointment = async (req, res) => {
     const transaction = await sequelize.transaction()
     try {
         const {appointmentId} = req.params
-        const appointment = await Appointment.findAll({
+        const appointment = await Appointment.findOne({
             where: {
                 id: appointmentId,
                 [Op.or]: [
                     {clientId: req.user.id},
-                    {'$timeSlote.providerId$': req.user.id}
+                    {'$timeSlot.providerId$': req.user.id}
                 ]
             },
             include: [{
@@ -124,9 +128,9 @@ export const cancelAppointment = async (req, res) => {
         await appointment.timeSlot.update({status: 'available'}, {transaction})
 
         await transaction.commit()
-        res.json({massage: 'Appointment canceled successfully'})
+        res.json({message: 'Appointment canceled successfully'})
     } catch (error) {
         await transaction.rollback()
-        res.status(500).json({error: error.massage})
+        res.status(500).json({error: error.message})
     }
 }

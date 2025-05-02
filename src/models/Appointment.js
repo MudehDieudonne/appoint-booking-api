@@ -7,6 +7,14 @@ const Appointment = sequelize.define('Appointment', {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
+  clientId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+  timeSlotId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
   status: {
     type: DataTypes.ENUM('booked', 'completed', 'canceled'),
     defaultValue: 'booked',
