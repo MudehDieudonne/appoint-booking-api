@@ -12,6 +12,26 @@ const router = express.Router()
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *           format: email
+ *         password:
+ *           type: string
+ *           format: password
+ *         role:
+ *           type: string
+ *           enum: [client, provider]
+ */
+
+/**
+ * @swagger
  * /api/auth/register:
  *   post:
  *     summary: Register a new user
@@ -27,6 +47,8 @@ const router = express.Router()
  *         description: User created successfully
  *       400:
  *         description: Email already exists
+ *       500:
+ *         description: Server error
  */
 
 /**
@@ -54,8 +76,27 @@ const router = express.Router()
  *     responses:
  *       200:
  *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   format: uuid
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                 role:
+ *                   type: string
+ *                 token:
+ *                   type: string
  *       401:
  *         description: Invalid credentials
+ *       500:
+ *         description: Server error
  */
 
 router.post('/register', register)

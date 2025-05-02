@@ -5,12 +5,15 @@ import timeSlotRoutes from './routes/timeSlotRoutes.js'
 import appointmentRoutes from './routes/appointmentRoutes.js'
 import swaggerUi from 'swagger-ui-express'
 import swaggerSpec from './config/swagger.js'
+import indexRouter from './routes/home.js'
 
 const app = express()
 
 //Bsc middleware
 app.use(cors())
 app.use(express.json())
+
+app.use('/', indexRouter)
 
 //Auth rout
 app.use('/api/auth', authRoutes)
