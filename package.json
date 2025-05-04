@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "node --test",
+    "test:watch": "NODE_ENV=test node --test --watch",
+    "test:coverage": "node --test --coverage"
   },
   "keywords": [],
   "author": "",
@@ -25,9 +27,11 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.1",
     "@types/supertest": "^6.0.3",
-    "jest": "^29.7.0",
+    "node-mocks-http": "^1.17.2",
+    "sinon": "^20.0.0",
     "supertest": "^7.1.0"
   }
 }

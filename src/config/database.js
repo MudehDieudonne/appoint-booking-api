@@ -1,5 +1,4 @@
 import { Sequelize } from "sequelize"
-import { User, TimeSlot, Appointment } from "../models/index.js"
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -15,14 +14,35 @@ const sequelize = new Sequelize(
         dialectOptions: {
           ssl: false
         },
-        logging: console.log // Enable temporarily for debugging
+        logging: console.log
     }
 )
+
+const createEnums = async () => {
+  // Create enum types if they do not exist
+  await sequelize.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enum_users_role') THEN
+        CREATE TYPE enum_users_role AS ENUM ('client', 'provider');
+      END IF;
+      IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enum_TimeSlots_status') THEN
+        CREATE TYPE enum_TimeSlots_status AS ENUM ('available', 'booked', 'canceled');
+      END IF;
+      IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enum_Appointments_status') THEN
+        CREATE TYPE enum_Appointments_status AS ENUM ('booked', 'completed', 'canceled');
+      END IF;
+    END
+    $$;
+  `)
+}
 
 const syncDatabase = async () => {
     try {
         await sequelize.authenticate();
         console.log('Database connection established')
+
+        await createEnums();
 
         await sequelize.sync({ force: true })
         console.log('Database synchronised')

@@ -1,5 +1,5 @@
 import { User } from '../models/index.js';
-import { generateToken, hashPassword, comparePassword } from '../utils/auth.js';
+import { generateToken, hashPassword, comparePassword } from '../utils/auth.js'
 
 export const register = async (req, res) => {
   try {

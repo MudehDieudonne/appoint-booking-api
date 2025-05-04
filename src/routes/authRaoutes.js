@@ -34,7 +34,7 @@ const router = express.Router()
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Register a new user
+ *     summary: Register a new user (client or provider)
  *     tags: [Authentication]
  *     requestBody:
  *       required: true
@@ -55,7 +55,7 @@ const router = express.Router()
  * @swagger
  * /api/auth/login:
  *   post:
- *     summary: Authenticate user
+ *     summary: Authenticate user (client or provider)
  *     tags: [Authentication]
  *     requestBody:
  *       required: true
