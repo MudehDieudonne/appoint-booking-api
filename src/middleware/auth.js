@@ -7,7 +7,7 @@ export const authenticate = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization
         if (!authHeader?.startsWith('Bearer')) {
-            return res.status(401).json({error: 'Unauthorized'})
+            return res.status(401).json({ error: 'Unauthorized' })
         }
         const token = authHeader.split(' ')[1]
         const decoded = jwt.verify(token, JWT_SECRET)
@@ -22,8 +22,8 @@ export const authenticate = async (req, res, next) => {
             role: user.role
         }
         next()
-    } catch (error) {
-        res.status(401).json({ error: 'Invalid token'})
+    } catch {
+        res.status(401).json({ error: 'Invalid token' })
     }
 }
 

@@ -4,18 +4,18 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        dialect: 'postgres',
-        dialectOptions: {
-          ssl: false
-        },
-        logging: console.log
-    }
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: false
+    },
+    logging: console.log
+  }
 )
 
 const createEnums = async () => {
@@ -38,19 +38,18 @@ const createEnums = async () => {
 }
 
 const syncDatabase = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Database connection established')
+  try {
+    await sequelize.authenticate();
+    console.log('Database connection established')
 
-        await createEnums();
+    await createEnums();
 
-        await sequelize.sync({ force: true })
-        console.log('Database synchronised')
-    } catch (error) {
-        console.error('Unable to connect to database:', error)
-    }
+    await sequelize.sync({ force: true })
+    console.log('Database synchronised')
+  } catch (error) {
+    console.error('Unable to connect to database:', error)
+  }
 }
 
-syncDatabase()
-
+export { sequelize, syncDatabase }
 export default sequelize

@@ -1,8 +1,6 @@
 import { describe, it, before, after } from 'node:test'
 import assert from 'node:assert'
-import app from '../../src/app.js'
-import sequelize from '../../src/config/database.js'
-import { User } from '../../src/models/index.js'
+import sequelize from '../../config/database.js'
 
 describe('Auth API Integration Tests', () => {
   before(async () => {

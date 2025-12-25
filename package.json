@@ -29,7 +29,10 @@
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/preset-env": "^7.27.1",
+    "@eslint/js": "^9.39.2",
     "@types/supertest": "^6.0.3",
+    "eslint": "^9.39.2",
+    "globals": "^16.5.0",
     "node-mocks-http": "^1.17.2",
     "sinon": "^20.0.0",
     "supertest": "^7.1.0"

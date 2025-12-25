@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import authRoutes from './routes/authRaoutes.js'
+import authRoutes from './routes/authRoutes.js'
 import timeSlotRoutes from './routes/timeSlotRoutes.js'
 import appointmentRoutes from './routes/appointmentRoutes.js'
 import swaggerUi from 'swagger-ui-express'
@@ -13,6 +13,12 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+//loggin mdw
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
+  next()
+})
+
 app.use('/', indexRouter)
 
 //Auth rout
@@ -24,15 +30,9 @@ app.use('/api', appointmentRoutes)
 // Register time slot routes
 app.use('/api', timeSlotRoutes)
 
-//loggin mdw
-app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
-    next()
-})
-
 //swg
-app.use('/api-docs', 
-  swaggerUi.serve, 
+app.use('/api-docs',
+  swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
     explorer: true,
     customCss: '.swagger-ui .topbar { display: none }'
@@ -41,7 +41,7 @@ app.use('/api-docs',
 
 //check enpoint
 app.get('/health', (req, res) => {
-    res.status(200).json({status: 'OK'})
+  res.status(200).json({ status: 'OK' })
 })
 
 export default app
